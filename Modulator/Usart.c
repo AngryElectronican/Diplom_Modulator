@@ -29,15 +29,16 @@ uint8_t Buffer_Read(){
 	}
 }
 uint8_t Buffer_DataAvailable(){
-	if(mass1.HEAD==mass1.TAIL){
-		if(mass1.UNHANDLED==0){
-			return 0;
-		}else{ 
-			return 1;
-		}
-	}else{
-		return 1;
-	}
+	return (uint8_t)mass1.UNHANDLED;
+// 	if(mass1.HEAD==mass1.TAIL){
+// 		if(mass1.UNHANDLED==0){
+// 			return 0;
+// 		}else{ 
+// 			return 1;
+// 		}
+// 	}else{
+// 		return 1;
+// 	}
 }
 
 ISR(USART_RX_vect){
