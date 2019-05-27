@@ -19,7 +19,9 @@ void Buffer_Write(uint8_t data){
 }
 uint8_t Buffer_Read(){
 	mass1.TAIL++;
-	if(mass1.TAIL>MAX_LEN-1)mass1.TAIL=0;
+	if(mass1.TAIL>MAX_LEN-1){
+		mass1.TAIL=0;
+	}
 	mass1.UNHANDLED--;
 	if(mass1.TAIL==0){
 		return mass1.buff[MAX_LEN-1];
@@ -29,7 +31,7 @@ uint8_t Buffer_Read(){
 	}
 }
 uint8_t Buffer_DataAvailable(){
-	return (uint8_t)mass1.UNHANDLED;
+	return mass1.UNHANDLED;
 // 	if(mass1.HEAD==mass1.TAIL){
 // 		if(mass1.UNHANDLED==0){
 // 			return 0;

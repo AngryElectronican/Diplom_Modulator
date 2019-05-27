@@ -6,6 +6,7 @@
  */ 
 
 #include <avr/io.h>
+#include <stdio.h>
 #include <inttypes.h>
 #include <avr/interrupt.h>
 #define F_CPU 8000000UL
@@ -25,7 +26,7 @@
 Time time1=0;
 void INT0_Init();
 uint16_t Array_to_Msg(uint8_t* arr);
-
+uint8_t mass_debug[5]={0};
 ISR(INT0_vect){
 	static uint8_t state=0;
 	static uint8_t i=0;
@@ -35,8 +36,17 @@ ISR(INT0_vect){
 	EIMSK&=~(1<<INT0);
 	switch (state){
 	case 0:
+	
+	for(int j=0;j<sprintf(mass_debug,"%d\r",Buffer_DataAvailable());j++){
+		USART_Write(mass_debug+j);
+	}
 			if(Buffer_DataAvailable()>=7){
-				if(Buffer_Read()=='\n'){
+				char data=Buffer_Read();
+				for(int j=0;j<sprintf(mass_debug,"\r%d\r",data);j++){
+					USART_Write(mass_debug+j);
+				}
+				if(data=='\n'){
+					
 					for(uint8_t i=0;i<6;i++){
 						mass[i]=Buffer_Read();
 					}
